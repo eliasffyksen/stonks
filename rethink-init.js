@@ -2,7 +2,8 @@ const r = require('rethinkdb');
 
 const tables = [
     'tickers',
-    'OHLC'
+    'OHLC',
+    'OHLCUpdates'
 ];
 
 (async () => {
@@ -23,4 +24,6 @@ const tables = [
             console.log('Create table', table);
         }
     }
+
+    conn.close();
 })();

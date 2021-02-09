@@ -39,6 +39,19 @@ const r = require('rethinkdb');
             console.log('Inserted 10k');
         }
         console.log('done with all inserts');
+
+        // OHCL Update
+        rows = await db.all('SELECT * FROM OHLC_updates');
+        const OHLCUpdateData = rows.reduce((acc, row) => {
+            acc.push({
+                id: row['date_of_data'],
+                updated: row['date_of_update']
+            });
+            return acc;
+        }, []);
+        await r.table('OHLCUpdates').insert(OHLCUpdateData).run(conn);
+
+        conn.close();
     });
     db.close(false);
 })();
